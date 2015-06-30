@@ -47,15 +47,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void tellJoke(View view){
-        // Getting a random joke from jokelib
-        String joke = jokeTelling.getRandomJoke();
-        // Starting JokeDisplayActivity passing the random joke as intent
-        Intent intent = new Intent(this, JokeDisplayActivity.class);
-        intent.putExtra(JokeDisplayActivity.INTENT_JOKE, joke);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-        //Toast.makeText(this, joke, Toast.LENGTH_SHORT).show();
+        new EndpointsAsyncTask(this).execute();
     }
-
-
 }
