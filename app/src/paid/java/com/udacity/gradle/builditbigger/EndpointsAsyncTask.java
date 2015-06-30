@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Pair;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import com.example.matteo.myandroidlibrary.JokeDisplayActivity;
 import com.example.matteo.myapplication.backend.jokeApi.JokeApi;
@@ -17,26 +19,34 @@ import java.io.IOException;
  * Created by Matteo on 30/06/2015.
  */
 class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, String> {
-    private static JokeApi myApiService = null;
-    private Context context;
+    private static JokeApi mJokeApi = null;
+    private Context mContext;
+    private String mResult;
+    private ProgressBar mProgressBar;
 
-    public EndpointsAsyncTask(Context context) {
-        this.context = context;
+    public EndpointsAsyncTask(Context context, ProgressBar progressBar) {
+        this.mContext = context;
+        this.mProgressBar = progressBar;
+    }
+
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+        if (mProgressBar != null) {
+            mProgressBar.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
     protected String doInBackground(Pair<Context, String>... params) {
-        if (myApiService == null) {
+        if (mJokeApi == null) {
             JokeApi.Builder builder = new JokeApi.Builder(AndroidHttp.newCompatibleTransport(),
                     new AndroidJsonFactory(), null)
-                    .setRootUrl("https://cloudenginetest-992.appspot.com/_ah/api/");
-
-            myApiService = builder.build();
+                    .setRootUrl(mContext.getString(R.string.root_url_api));
+            mJokeApi = builder.build();
         }
-
-
         try {
-            return myApiService.putJoke(new JokeBean()).execute().getJoke();
+            return mJokeApi.putJoke(new JokeBean()).execute().getJoke();
         } catch (IOException e) {
             return e.getMessage();
         }
@@ -44,9 +54,19 @@ class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, String> 
 
     @Override
     protected void onPostExecute(String result) {
-        Intent intent = new Intent(context, JokeDisplayActivity.class);
-        intent.putExtra(JokeDisplayActivity.INTENT_JOKE, result);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(intent);
+        super.onPostExecute(result);
+        if (mProgressBar != null) {
+            mProgressBar.setVisibility(View.GONE);
+        }
+        mResult = result;
+        startJokeDisplayActivity();
     }
+
+    private void startJokeDisplayActivity() {
+        Intent intent = new Intent(mContext, JokeDisplayActivity.class);
+        intent.putExtra(JokeDisplayActivity.INTENT_JOKE, mResult);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        mContext.startActivity(intent);
+    }
+
 }

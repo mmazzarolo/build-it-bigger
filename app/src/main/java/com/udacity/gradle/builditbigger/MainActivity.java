@@ -5,19 +5,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-
-import com.example.JokeTelling;
-
+import android.widget.ProgressBar;
 
 public class MainActivity extends AppCompatActivity {
-
-    private JokeTelling jokeTelling;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        jokeTelling = new JokeTelling();
+        getSupportFragmentManager().beginTransaction().
+                add(R.id.fragment,new MainActivityFragment()).commit();
     }
 
 
@@ -43,7 +40,9 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @SuppressWarnings("unchecked")
     public void tellJoke(View view) {
-        new EndpointsAsyncTask(this).execute();
+        ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressbar);
+        new EndpointsAsyncTask(this, progressBar).execute();
     }
 }

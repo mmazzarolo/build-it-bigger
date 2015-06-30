@@ -16,7 +16,7 @@ public class NonEmptyStringTest extends AndroidTestCase {
         // Testing that Async task successfully retrieves a non-empty string
         // You can test this from androidTest -> Run 'All Tests'
         String result = null;
-        EndpointsAsyncTask endpointsAsyncTask = new EndpointsAsyncTask(getContext());
+        EndpointsAsyncTask endpointsAsyncTask = new EndpointsAsyncTask(getContext(), null);
         endpointsAsyncTask.execute();
         try {
             result = endpointsAsyncTask.get();
