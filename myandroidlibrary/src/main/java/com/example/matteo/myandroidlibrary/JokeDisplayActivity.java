@@ -1,28 +1,25 @@
-package com.udacity.gradle.builditbigger;
+package com.example.matteo.myandroidlibrary;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Toast;
-
-import com.example.JokeTelling;
-import com.example.matteo.myandroidlibrary.JokeDisplayActivity;
+import android.widget.TextView;
 
 
-public class MainActivity extends AppCompatActivity {
+public class JokeDisplayActivity extends AppCompatActivity {
 
-    private JokeTelling jokeTelling;
+    public final static String INTENT_JOKE = "INTENT_JOKE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        jokeTelling = new JokeTelling();
+        setContentView(R.layout.activity_joke_display);
+        // Processing the joke intent
+        String joke = getIntent().getStringExtra(INTENT_JOKE);
+        TextView textViewJoke = (TextView) findViewById(R.id.textview_joke);
+        textViewJoke.setText(joke);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -45,17 +42,4 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
-    public void tellJoke(View view){
-        // Getting a random joke from jokelib
-        String joke = jokeTelling.getRandomJoke();
-        // Starting JokeDisplayActivity passing the random joke as intent
-        Intent intent = new Intent(this, JokeDisplayActivity.class);
-        intent.putExtra(JokeDisplayActivity.INTENT_JOKE, joke);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-        //Toast.makeText(this, joke, Toast.LENGTH_SHORT).show();
-    }
-
-
 }
