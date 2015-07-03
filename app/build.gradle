@@ -10,6 +10,7 @@ android {
         targetSdkVersion 22
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -26,9 +27,8 @@ android {
             applicationId "com.udacity.gradle.builditbigger.paid"
         }
     }
+
 }
-
-
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
