@@ -1,4 +1,9 @@
-# Gradle for Android and Java Final Project
+#Build It Bigger
+Udacity Android Nanodegree: Project 4
+
+##Project description:
+
+## Gradle for Android and Java Final Project
 
 In this project, you will create an app with multiple flavors that uses
 multiple libraries and Google Could Endpoints. The finished app will consist
