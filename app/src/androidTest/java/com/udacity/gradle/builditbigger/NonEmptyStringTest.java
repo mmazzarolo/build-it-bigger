@@ -11,7 +11,7 @@ public class NonEmptyStringTest extends AndroidTestCase {
     private static final String LOG_TAG = "NonEmptyStringTest";
 
     @SuppressWarnings("unchecked")
-    public void runTest() {
+    public void test() {
 
         // Testing that Async task successfully retrieves a non-empty string
         // You can test this from androidTest -> Run 'All Tests'
